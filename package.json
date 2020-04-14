@@ -1,6 +1,6 @@
 {
   "name": "flowserve",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "local http server",
   "bin": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "server",
     "local"
   ],
-  "author": "Braden Jonsson",
+  "author": "braden337",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/braden337/flowserve/issues"
@@ -25,7 +25,7 @@
   "dependencies": {
     "http-server": "^0.10.0",
     "internal-ip": "^3.0.1",
-    "open": "^0.0.5",
-    "qr-image": "^3.2.0"
+    "portfinder": "^1.0.25",
+    "qrcode-terminal": "^0.11.0"
   }
 }

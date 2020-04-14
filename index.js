@@ -1,24 +1,30 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const os = require('os')
-const qr = require('qr-image')
-const path = require('path')
 const ip = require('internal-ip').v4.sync()
-const open = require('open')
-const server = require('http-server').createServer()
+const portfinder = require('portfinder')
+const httpServer = require('http-server')
+const qrcode = require('qrcode-terminal')
+const path = require('path');
 
-const port = 8080
 
-server.listen(8080)
+let dir = path.resolve(process.argv.length > 2 ? process.argv[2] : '.') 
 
-let url = `http://${ip}:${port}`
+let server = httpServer.createServer({
+  root: dir
+})
 
-console.log(`Serving current directory on ${url}`)
+portfinder.basePort = 8080
 
-let image = qr.image(url, {type: 'png'})
-let png = path.join(os.tmpdir(), 'server.png')
+portfinder.getPort(function (err, port) {
 
-image.pipe(fs.createWriteStream(png))
+  if (err) { throw err }
 
-open(png)
+  server.listen(port, function() {
+    let url = `http://${ip}:${port}`
+    qrcode.generate(url, { small: true }, function (qrcode) {
+      console.log(qrcode)
+      console.log(`Serving files from ${dir}/ at ${url}`)
+    });
+  })
+
+})
